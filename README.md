@@ -17,3 +17,8 @@ Sergi Ger Roca:
 Marc Igle:
 
 Pau:
+
+
+Mininet setup
+1. ´sudo mn´
+2. `net = Mininet(topo=SingleSwitchTopo(4))`
