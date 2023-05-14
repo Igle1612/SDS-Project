@@ -1,37 +1,56 @@
+from mininet.topo import Topo
 from mininet.net import Mininet
-from mininet.topo import SingleSwitchTopo
+from mininet.node import RemoteController, OVSKernelSwitch
+from mininet.cli import CLI
+from mininet.log import setLogLevel
 
-# Create a network with a single switch and 4 hosts
-net = Mininet(topo=SingleSwitchTopo(4))
+class MyTopo(Topo):
+    def __init__(self, **kwargs):
+        Topo.__init__(self, **kwargs)
 
-# Start the network
-net.start()
+        # Create hosts
+        h1 = self.addHost('h1', ip='10.0.0.1')
+        h2 = self.addHost('h2', ip='10.0.0.2')
+        h3 = self.addHost('h3', ip='10.0.0.3')
+        h4 = self.addHost('h4', ip='10.0.0.4')
 
-# Open an xterm window for each host
-for host in net.hosts:
-    host.cmd('xterm &')
+        # Honeypot
+        h5 = self.addHost('h5', ip='10.0.0.5')
 
-# Wait for the user to close the xterm windows
-input('Press enter to shutdown the network...')
+        # Create switch
+        s1 = self.addSwitch('s1')
 
-# Stop the network
-net.stop()
+        # Connect hosts to switch
+        self.addLink(h1, s1)
+        self.addLink(h2, s1)
+        self.addLink(h3, s1)
+        self.addLink(h4, s1)
 
-from mininet.net import Mininet
-from mininet.topo import SingleSwitchTopo
+        # Create router
+        r1 = self.addHost('r1', ip='192.168.1.1')
 
-# Create a network with a single switch and 4 hosts
-net = Mininet(topo=SingleSwitchTopo(4))
+        # Connect router to switch
+        self.addLink(r1, s1)
+        self.addLink(r1, h5)
 
-# Start the network
-net.start()
+def setup():
+    topo = MyTopo()
 
-# Open an xterm window for each host
-for host in net.hosts:
-    host.cmd('xterm &')
+    net = Mininet(topo=topo, switch=OVSKernelSwitch, controller=RemoteController)
 
-# Wait for the user to close the xterm windows
-input('Press enter to shutdown the network...')
+    net.start()
 
-# Stop the network
-net.stop()
+    # Set firewall rules for router
+    r1 = net.getNodeByName('r1')
+    r1.cmd('iptables -A FORWARD -s 10.0.0.0/24 -d 192.168.1.0/24 -j ACCEPT')
+    r1.cmd('iptables -A FORWARD -s 192.168.1.0/24 -d 10.0.0.0/24 -j ACCEPT')
+    r1.cmd('iptables -A FORWARD -d 10.0.0.5 -j DROP')
+    r1.cmd('iptables -A FORWARD -j DROP')
+
+    CLI(net)
+
+    net.stop()
+
+if __name__ == '__main__':
+    setLogLevel('info')
+    setup()
