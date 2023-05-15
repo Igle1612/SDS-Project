@@ -130,18 +130,17 @@ class LoadBalancer(simple_switch_13.SimpleSwitch13):
         src_ip = self.VIRTUAL_IP
 
         # CHANGES HERE ============================
-        servers = [1,2,3,4,5]
-        server_selected = choice(servers)
-        if server_selected == 1:
+        server_selected = haddr_to_int(arp_target_mac) % 5
+        if server_selected == 0:
             src_mac = self.SERVER1_MAC
             
-        elif server_selected == 2:
+        elif server_selected == 1:
             src_mac = self.SERVER2_MAC
             
-        elif server_selected == 3:
+        elif server_selected == 2:
             src_mac = self.SERVER3_MAC
 
-        elif server_selected == 4:
+        elif server_selected == 3:
             src_mac = self.SERVER4_MAC
 
         else:
