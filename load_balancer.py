@@ -10,9 +10,6 @@ from ryu.lib.mac import haddr_to_int
 from ryu.lib.packet.ether_types import ETH_TYPE_IP
 from ryu.lib.packet import arp
 from ryu.lib.packet import ethernet
-from random import choice
-
-
 
 class LoadBalancer(simple_switch_13.SimpleSwitch13):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
@@ -145,13 +142,6 @@ class LoadBalancer(simple_switch_13.SimpleSwitch13):
 
         else:
             src_mac = self.SERVER5_MAC
-
-        '''
-        if haddr_to_int(arp_target_mac) % 2 == 1:
-            src_mac = self.SERVER1_MAC
-        else:
-            src_mac = self.SERVER2_MAC
-        '''
 
         self.logger.info("Selected server MAC: " + src_mac)
 
