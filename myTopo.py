@@ -41,10 +41,10 @@ def setup():
 
     s1 = net.get('s1')
 
-    s1.cmd('ovs-ofctl add-flow s1 "table=0, priority=100, dl_dst=00:00:00:00:00:01, in_port=16, actions=CONTROLLER"')
-    s1.cmd('ovs-ofctl add-flow s1 "table=0, priority=100, dl_type=0x0800, nw_proto=6, in_port=16, tp_dst=80, actions=output:CONTROLLER"')
-    s1.cmd('ovs-ofctl add-flow s1 "table=0, priority=100, dl_type=0x0800, nw_proto=6, in_port=16, tp_dst=443, actions=output:CONTROLLER"')
-    s1.cmd('ovs-ofctl add-flow s1 "table=0, priority=0, actions=output:16"')
+    #s1.cmd('ovs-ofctl add-flow s1 "table=0, priority=100, dl_dst=00:00:00:00:00:01, in_port=16, actions=CONTROLLER"')
+    #s1.cmd('ovs-ofctl add-flow s1 "table=0, priority=100, dl_type=0x0800, nw_proto=6, in_port=16, tp_dst=80, actions=output:CONTROLLER"')
+    #s1.cmd('ovs-ofctl add-flow s1 "table=0, priority=100, dl_type=0x0800, nw_proto=6, in_port=16, tp_dst=443, actions=output:CONTROLLER"')
+    #s1.cmd('ovs-ofctl add-flow s1 "table=0, priority=0, actions=output:16"')
 
     net.interact()
 
