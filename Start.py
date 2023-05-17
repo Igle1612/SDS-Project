@@ -1,5 +1,6 @@
 from mininet.net import Mininet
 from mininet.topo import Topo
+from mininet.node import OVSKernelSwitch, RemoteController
 
 class Topo_SFC(Topo):
     def __init__(self):
@@ -52,5 +53,4 @@ def setup():
 
 
 if __name__ == '__main__':
-    setLogLevel('info')
     setup()
