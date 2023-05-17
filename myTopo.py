@@ -1,6 +1,4 @@
-from mininet.net import Mininet
 from mininet.topo import Topo
-from mininet.node import OVSKernelSwitch, RemoteController
 
 class Topo_SFC(Topo):
     def __init__(self):
@@ -31,26 +29,4 @@ class Topo_SFC(Topo):
         self.addLink(s2, server4, port1=14)
         self.addLink(s2, server5, port1=15)
 
-
-def setup():
-    topo = Topo_SFC()
-
-    net = Mininet(topo=topo, switch=OVSKernelSwitch, controller=RemoteController, ipBase='10.0.0.0/8')
-    net.build()
-    net.start()
-
-    s1 = net.get('s1')
-
-    #s1.cmd('ovs-ofctl add-flow s1 "table=0, priority=100, dl_dst=00:00:00:00:00:01, in_port=16, actions=CONTROLLER"')
-    #s1.cmd('ovs-ofctl add-flow s1 "table=0, priority=100, dl_type=0x0800, nw_proto=6, in_port=16, tp_dst=80, actions=output:CONTROLLER"')
-    #s1.cmd('ovs-ofctl add-flow s1 "table=0, priority=100, dl_type=0x0800, nw_proto=6, in_port=16, tp_dst=443, actions=output:CONTROLLER"')
-    #s1.cmd('ovs-ofctl add-flow s1 "table=0, priority=0, actions=output:16"')
-
-    net.interact()
-
-    net.stop()
-
-
-
-if __name__ == '__main__':
-    setup()
+topos = { 'topo_SFC': ( lambda: Topo_SFC() ) }
