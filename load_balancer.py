@@ -128,6 +128,9 @@ class LoadBalancer(simple_switch_13.SimpleSwitch13):
 
         # CHANGES HERE ============================
         server_selected = haddr_to_int(arp_target_mac) % 5
+
+        print(server_selected)
+
         if server_selected == 0:
             src_mac = self.SERVER1_MAC
             
