@@ -14,7 +14,7 @@ class Topo_SFC(Topo):
         h1 = self.addHost('h1', ip='10.0.0.50/24')
         h2 = self.addHost('h2', ip='10.0.0.51/24')
 
-        self.addLink(h1, router)
+        self.addLink(h1, router, intfName1='h1-eth0')
 
         server1 = self.addHost('server1', ip='10.0.0.11/24')
         server2 = self.addHost('server2', ip='10.0.0.12/24')
