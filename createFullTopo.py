@@ -31,28 +31,30 @@ class NetworkTopo( Topo ):
         self.addLink( s1, router, intfName2='r0-eth1',
                       params2={ 'ip' : '192.168.1.1/24' } )
 
-        #self.addLink( s1, router, intfName2='r0-eth2',
-        #              params2={ 'ip' : '192.168.2.1/24' } )
-
+        #Add outter host
         hout = self.addHost('hout', ip='10.0.1.30/24',
                                 defaultRoute='via 10.0.1.1')
-
         self.addLink(hout, router, intfName2='r0-eth2',
                         params2={'ip' : '10.0.1.1/24'})
 
+        # Add honeypot
+        honeyPot = self.addHost( 'honeyPot', ip='192.168.2.2/24',
+                                    defaultRoute='via 192.168.2.1')
+        self.addLink(honeyPot, router, intfName2='ro-eth3',
+                        params2={'ip' : '192.168.2.1/24'})
+    
+        #Add Hosts
         h1 = self.addHost( 'h1', ip='192.168.1.100/24',
                            defaultRoute='via 192.168.1.1' )
-        
         h2 = self.addHost( 'h2', ip='192.168.1.101/24',
                            defaultRoute='via 192.168.1.1')
-
         h3 = self.addHost( 'h3', ip='192.168.1.102/24',
                            defaultRoute='via 192.168.1.1' )
-
         h4 = self.addHost( 'h4', ip='192.168.1.103/24',
                            defaultRoute='via 192.168.1.1' )
-
-        for h, s in [ (h1, s1), (h2, s1), (h3, s1), (h4, s1) ]:
+        h5 = self.addHost( 'h5', ip='192.168.1.104/24',
+                           defaultRoute='via 192.168.1.1' )
+        for h, s in [ (h1, s1), (h2, s1), (h3, s1), (h4, s1), (h5, s1) ]:
             self.addLink( h, s )
 
 def run():
