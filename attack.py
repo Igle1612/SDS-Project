@@ -2,24 +2,19 @@ from scapy.all import *
 import random
 import time
 import ipaddress
+import socket
 
-# List of source IP addresses
-public_ips = ['203.0.113.1',
-              '72.14.204.147',
-              '185.84.244.10',
-              '104.244.42.1',
-              '192.0.2.123',
-              '216.58.214.46',
-              '45.33.2.220',
-              '66.249.64.1',
-              '87.250.250.242',
-              '151.101.65.121']
+def get_ip_address():
+    hostname = socket.gethostname()
+    ip_address = socket.gethostbyname(hostname)
+    return ip_address
 
 def generate_packet():
-    src_ip = random.choice(public_ips)
+    src_ip = node_ip
     dst_ip = "192.168.1.1"
     return IP(src=src_ip, dst=dst_ip)/ICMP()
 
+node_ip = get_ip_address()
 num_requests = 50
 duration = 600
 cicle_time = 5
