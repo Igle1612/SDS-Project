@@ -1,3 +1,6 @@
+ryu-manager SDS-Project/load_balancer.py 
+
+
 xterm h1 h2 h3 h4 h5 
 
 // a cada màquina, obrir el port
