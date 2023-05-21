@@ -36,14 +36,15 @@ class NetworkTopo( Topo ):
             host_name = 'hout{}'.format(i)
             ip_address = '10.0.1.{}/24'.format(i + 29)  # Increment the last octet of the IP address
             default_route = 'via 10.0.1.1'
+            intf_name = 'r0-eth{}'.format(i)
 
             host = self.addHost(host_name, ip=ip_address, defaultRoute=default_route)
-            self.addLink(host, router, intfName2='r0-eth2', params2={'ip': '10.0.1.1/24'})
+            self.addLink(host, router, intfName2=intf_name, params2={'ip': '10.0.1.1/24'})
 
         # Add honeypot
         honeyPot = self.addHost( 'honeyPot', ip='192.168.2.2/24',
                                     defaultRoute='via 192.168.2.1')
-        self.addLink(honeyPot, router, intfName2='r0-eth3',
+        self.addLink(honeyPot, router, intfName2='r0-eth9',
                         params2={'ip' : '192.168.2.1/24'})
     
         #Add Hosts
