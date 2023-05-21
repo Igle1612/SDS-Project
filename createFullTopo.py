@@ -32,14 +32,16 @@ class NetworkTopo( Topo ):
                       params2={ 'ip' : '192.168.1.1/24' } )
 
         #Add outter hosts
-        for i in range(2, 8):  # Start from 2 to skip the existing 'hout'
-            host_name = 'hout{}'.format(i)
-            ip_address = '10.0.1.{}/24'.format(i + 29)  # Increment the last octet of the IP address
-            default_route = 'via 10.0.1.1'
-            intf_name = 'r0-eth{}'.format(i)
-
-            host = self.addHost(host_name, ip=ip_address, defaultRoute=default_route)
-            self.addLink(host, router, intfName2=intf_name, params2={'ip': '10.0.1.1/24'})
+        hout1 = self.addHost( 'hout1', ip='10.0.1.101/24', defaultRoute='via 10.0.1.1' )
+        hout2 = self.addHost( 'hout2', ip='10.0.1.102/24', defaultRoute='via 10.0.1.1' )
+        hout3 = self.addHost( 'hout3', ip='10.0.1.103/24', defaultRoute='via 10.0.1.1' )
+        hout4 = self.addHost( 'hout4', ip='10.0.1.104/24', defaultRoute='via 10.0.1.1' )
+        hout5 = self.addHost( 'hout5', ip='10.0.1.105/24', defaultRoute='via 10.0.1.1' )
+        self.addLink( hout1, router, intfName2='r0-eth2', params2={ 'ip' : '10.0.1.1/24' })
+        self.addLink( hout2, router, intfName2='r0-eth3', params2={ 'ip' : '10.0.1.1/24' })
+        self.addLink( hout3, router, intfName2='r0-eth4', params2={ 'ip' : '10.0.1.1/24' })
+        self.addLink( hout4, router, intfName2='r0-eth5', params2={ 'ip' : '10.0.1.1/24' })
+        self.addLink( hout5, router, intfName2='r0-eth6', params2={ 'ip' : '10.0.1.1/24' })
 
         # Add honeypot
         honeyPot = self.addHost( 'honeyPot', ip='192.168.2.2/24',
