@@ -84,14 +84,14 @@ def run():
         
     net.start()
     router = net.getNodeByName('r0')
-    router.cmd('iptables -t nat -A PREROUTING -d 10.0.1.1 -j DNAT --to-destination 192.168.1.1')
-    router.cmd('iptables -t nat -A PREROUTING -d 10.0.2.1 -j DNAT --to-destination 192.168.1.1')
-    router.cmd('iptables -t nat -A PREROUTING -d 10.0.3.1 -j DNAT --to-destination 192.168.1.1')
-    router.cmd('iptables -t nat -A PREROUTING -d 10.0.4.1 -j DNAT --to-destination 192.168.1.1')
-    router.cmd('iptables -t nat -A PREROUTING -d 10.0.5.1 -j DNAT --to-destination 192.168.1.1')
+    router.cmd('iptables -t nat -A PREROUTING -d 10.0.1.1 -j DNAT --to-destination 192.168.1.100')
+    router.cmd('iptables -t nat -A PREROUTING -d 10.0.2.1 -j DNAT --to-destination 192.168.1.100')
+    router.cmd('iptables -t nat -A PREROUTING -d 10.0.3.1 -j DNAT --to-destination 192.168.1.100')
+    router.cmd('iptables -t nat -A PREROUTING -d 10.0.4.1 -j DNAT --to-destination 192.168.1.100')
+    router.cmd('iptables -t nat -A PREROUTING -d 10.0.5.1 -j DNAT --to-destination 192.168.1.100')
 
-    router.cmd('ip route add default via 192.168.1.1')
-    router.cmd('ip route add 192.168.1.0/24 via 192.168.1.1')
+    #router.cmd('ip route add default via 192.168.1.1')
+    #router.cmd('ip route add 192.168.1.0/24 via 192.168.1.1')
 
     CLI( net )
     net.stop()
