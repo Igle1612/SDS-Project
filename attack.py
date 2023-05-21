@@ -17,7 +17,7 @@ public_ips = ['203.0.113.1',
 
 def generate_packet():
     src_ip = random.choice(public_ips)
-    dst_ip = "10.0.0.1"
+    dst_ip = "192.168.1.1"
     return IP(src=src_ip, dst=dst_ip)/ICMP()
 
 num_requests = 50
