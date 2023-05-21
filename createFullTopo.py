@@ -7,7 +7,7 @@ from mininet.node import Node
 from mininet.log import setLogLevel, info
 from mininet.cli import CLI
 from mininet.link import Intf
-from mininet.node import Controller
+from mininet.node import Controller, RemoteController
 
 class LinuxRouter( Node ):
     # Turns host into IP router
@@ -73,7 +73,7 @@ def run():
 
     topo = NetworkTopo()
     
-    net = Mininet( topo=topo, controller=None )
+    net = Mininet( topo=topo, controller=RemoteController )
 
     net.start()
     router = net.getNodeByName('r0')
