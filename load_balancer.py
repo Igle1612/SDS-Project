@@ -14,25 +14,25 @@ from ryu.lib.packet import ethernet
 class LoadBalancer(simple_switch_13.SimpleSwitch13):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
 
-    VIRTUAL_IP = '10.0.0.100'  # The virtual server IP s2
+    VIRTUAL_IP = '192.168.1.100'  # The virtual server IP s2
 
-    SERVER1_IP = '10.0.0.11'
+    SERVER1_IP = '192.168.1.101'
     SERVER1_MAC = '00:00:00:00:00:01'
     SERVER1_PORT = 11
 
-    SERVER2_IP = '10.0.0.12'
+    SERVER2_IP = '192.168.1.102'
     SERVER2_MAC = '00:00:00:00:00:02'
     SERVER2_PORT = 12
 
-    SERVER3_IP = '10.0.0.13'
+    SERVER3_IP = '192.168.1.103'
     SERVER3_MAC = '00:00:00:00:00:03'
     SERVER3_PORT = 13
 
-    SERVER4_IP = '10.0.0.14'
+    SERVER4_IP = '192.168.1.104'
     SERVER4_MAC = '00:00:00:00:00:04'
     SERVER4_PORT = 14
 
-    SERVER5_IP = '10.0.0.15'
+    SERVER5_IP = '192.168.1.105'
     SERVER5_MAC = '00:00:00:00:00:05'
     SERVER5_PORT = 15
 
@@ -43,6 +43,7 @@ class LoadBalancer(simple_switch_13.SimpleSwitch13):
 
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def _packet_in_handler(self, ev):
+        print("_packet_in_handler")
         if ev.msg.msg_len < ev.msg.total_len:
             self.logger.debug("packet truncated: only %s of %s bytes",
                               ev.msg.msg_len, ev.msg.total_len)
@@ -121,6 +122,7 @@ class LoadBalancer(simple_switch_13.SimpleSwitch13):
 
     # Source IP and MAC passed here now become the destination for the reply packet
     def arp_reply(self, dst_ip, dst_mac):
+        print("arp_reply")
         arp_target_ip = dst_ip  # the sender ip
         arp_target_mac = dst_mac  # the sender mac
         # Making the load balancer IP as source IP

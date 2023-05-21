@@ -7,7 +7,7 @@ from mininet.node import Node
 from mininet.log import setLogLevel, info
 from mininet.cli import CLI
 from mininet.link import Intf
-from mininet.node import Controller
+from mininet.node import Controller, RemoteController
 
 class LinuxRouter( Node ):
     # Turns host into IP router
@@ -26,7 +26,7 @@ class NetworkTopo( Topo ):
 
         router = self.addNode( 'r0', cls=LinuxRouter, ip='192.168.1.1/24' )
 
-        s1 = self.addSwitch( 's1', failMode='standalone' )
+        s1 = self.addSwitch( 's1', ip='192.168.1.100', failMode='standalone' )
 
         self.addLink( s1, router, intfName2='r0-eth1',
                       params2={ 'ip' : '192.168.1.1/24' } )
@@ -48,24 +48,32 @@ class NetworkTopo( Topo ):
                         params2={'ip' : '192.168.2.1/24'})
     
         #Add Hosts
-        h1 = self.addHost( 'h1', ip='192.168.1.100/24',
-                           defaultRoute='via 192.168.1.1' )
-        h2 = self.addHost( 'h2', ip='192.168.1.101/24',
-                           defaultRoute='via 192.168.1.1')
-        h3 = self.addHost( 'h3', ip='192.168.1.102/24',
-                           defaultRoute='via 192.168.1.1' )
-        h4 = self.addHost( 'h4', ip='192.168.1.103/24',
-                           defaultRoute='via 192.168.1.1' )
-        h5 = self.addHost( 'h5', ip='192.168.1.104/24',
-                           defaultRoute='via 192.168.1.1' )
-        for h, s in [ (h1, s1), (h2, s1), (h3, s1), (h4, s1), (h5, s1) ]:
-            self.addLink( h, s )
+        h1 = self.addHost( 'h1', ip='192.168.1.101/24',
+                           defaultRoute='via 192.168.1.1', mac='00:00:00:00:00:01' )
+        h2 = self.addHost( 'h2', ip='192.168.1.102/24',
+                           defaultRoute='via 192.168.1.1', mac='00:00:00:00:00:02')
+        h3 = self.addHost( 'h3', ip='192.168.1.103/24',
+                           defaultRoute='via 192.168.1.1', mac='00:00:00:00:00:03' )
+        h4 = self.addHost( 'h4', ip='192.168.1.104/24',
+                           defaultRoute='via 192.168.1.1', mac='00:00:00:00:00:04' )
+        h5 = self.addHost( 'h5', ip='192.168.1.105/24',
+                           defaultRoute='via 192.168.1.1', mac='00:00:00:00:00:05' )
+        
+        self.addLink(s1, h1, port1=11)
+        self.addLink(s1, h2, port1=12)
+        self.addLink(s1, h3, port1=13)
+        self.addLink(s1, h4, port1=14)
+        self.addLink(s1, h5, port1=15)
+        
+        
+        #for h, s in [ (h1, s1), (h2, s1), (h3, s1), (h4, s1), (h5, s1) ]:
+        #    self.addLink( h, s )
 
 def run():
 
     topo = NetworkTopo()
     
-    net = Mininet( topo=topo, controller=None )
+    net = Mininet( topo=topo, controller=RemoteController )
 
     net.start()
     router = net.getNodeByName('r0')
