@@ -7,7 +7,14 @@ from mininet.node import Node
 from mininet.log import setLogLevel, info
 from mininet.cli import CLI
 from mininet.link import Intf
-from mininet.node import Controller, RemoteController, OVSKernelSwitch
+from mininet.node import Controller, RemoteController, OVSSwitch
+
+        
+# Add controllers
+c0 = RemoteController('c0', ip='127.0.0.1', port=6633)
+c1 = RemoteController('c1', ip='127.0.0.1', port=6634)
+
+cmap = {'s0': c0, 's1': c1}
 
 class LinuxRouter( Node ):
     # Turns host into IP router
@@ -19,6 +26,10 @@ class LinuxRouter( Node ):
     def terminate( self ):
         self.cmd( 'sysctl net.ipv4.ip_forward=0' )
         super( LinuxRouter, self ).terminate()
+
+class MultiSwitch(OVSSwitch):
+    def start(self, controllers):
+        return OVSSwitch.start(self, [cmap[self.name]])
 
 class NetworkTopo( Topo ):
     # Class that builds network topology consisting of four hosts, one router, three switches
@@ -66,11 +77,14 @@ def run():
 
     topo = NetworkTopo()
     
-    net = Mininet( topo=topo, controller=RemoteController, switch=OVSKernelSwitch )
+    net = Mininet( topo=topo, controller=None, switch=MultiSwitch )
 
+    for c in [c0, c1]:
+        net.addController(c)
+        
     net.start()
     router = net.getNodeByName('r0')
-    router.cmd('iptables -t nat -A PREROUTING -i r0-eth2 -d 10.0.1.1 -j DNAT --to-destination 192.168.1.100')
+    router.cmd('iptables -t nat -A PREROUTING -i r0-eth2 -d 10.0.1.1 -j DNAT --to-destination 192.168.1.1')
     router.cmd('ip route add default via 192.168.1.1')
     router.cmd('ip route add 192.168.1.0/24 via 192.168.1.1')
 
