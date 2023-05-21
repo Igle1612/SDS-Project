@@ -13,7 +13,7 @@ while len(public_ips) < 20:
 # Define a function to generate a packet with a random source and destination IP address
 def generate_packet():
     src_ip = random.choice(public_ips)
-    dst_ip = "10.0.2.9"
+    dst_ip = "192.168.1.1"
     return IP(src=src_ip, dst=dst_ip)/TCP(sport=3000, dport=80) 
 
 # Simulate traffic for 10 minutes
