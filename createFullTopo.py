@@ -31,11 +31,14 @@ class NetworkTopo( Topo ):
         self.addLink( s1, router, intfName2='r0-eth1',
                       params2={ 'ip' : '192.168.1.1/24' } )
 
-        #Add outter host
-        hout = self.addHost('hout', ip='10.0.1.30/24',
-                                defaultRoute='via 10.0.1.1')
-        self.addLink(hout, router, intfName2='r0-eth2',
-                        params2={'ip' : '10.0.1.1/24'})
+        #Add outter hosts
+        for i in range(2, 8):  # Start from 2 to skip the existing 'hout'
+            host_name = 'hout{}'.format(i)
+            ip_address = '10.0.1.{}/24'.format(i + 29)  # Increment the last octet of the IP address
+            default_route = 'via 10.0.1.1'
+
+            host = self.addHost(host_name, ip=ip_address, defaultRoute=default_route)
+            self.addLink(host, router, intfName2='r0-eth2', params2={'ip': '10.0.1.1/24'})
 
         # Add honeypot
         honeyPot = self.addHost( 'honeyPot', ip='192.168.2.2/24',
