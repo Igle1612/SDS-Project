@@ -14,25 +14,25 @@ from ryu.lib.packet import ethernet
 class LoadBalancer(simple_switch_13.SimpleSwitch13):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
 
-    VIRTUAL_IP = '10.0.0.100'  # The virtual server IP s2
+    VIRTUAL_IP = '192.168.1.2'  # The virtual server IP s2
 
-    SERVER1_IP = '10.0.0.11'
+    SERVER1_IP = '192.168.1.100'
     SERVER1_MAC = '00:00:00:00:00:01'
     SERVER1_PORT = 11
 
-    SERVER2_IP = '10.0.0.12'
+    SERVER2_IP = '192.168.1.101'
     SERVER2_MAC = '00:00:00:00:00:02'
     SERVER2_PORT = 12
 
-    SERVER3_IP = '10.0.0.13'
+    SERVER3_IP = '192.168.1.102'
     SERVER3_MAC = '00:00:00:00:00:03'
     SERVER3_PORT = 13
 
-    SERVER4_IP = '10.0.0.14'
+    SERVER4_IP = '192.168.1.103'
     SERVER4_MAC = '00:00:00:00:00:04'
     SERVER4_PORT = 14
 
-    SERVER5_IP = '10.0.0.15'
+    SERVER5_IP = '192.168.1.104'
     SERVER5_MAC = '00:00:00:00:00:05'
     SERVER5_PORT = 15
 
