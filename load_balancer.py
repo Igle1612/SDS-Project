@@ -43,7 +43,6 @@ class LoadBalancer(simple_switch_13.SimpleSwitch13):
 
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def _packet_in_handler(self, ev):
-        print("_packet_in_handler")
         if ev.msg.msg_len < ev.msg.total_len:
             self.logger.debug("packet truncated: only %s of %s bytes",
                               ev.msg.msg_len, ev.msg.total_len)
@@ -122,7 +121,6 @@ class LoadBalancer(simple_switch_13.SimpleSwitch13):
 
     # Source IP and MAC passed here now become the destination for the reply packet
     def arp_reply(self, dst_ip, dst_mac):
-        print("arp_reply")
         arp_target_ip = dst_ip  # the sender ip
         arp_target_mac = dst_mac  # the sender mac
         # Making the load balancer IP as source IP
@@ -131,7 +129,7 @@ class LoadBalancer(simple_switch_13.SimpleSwitch13):
         # CHANGES HERE ============================
         server_selected = haddr_to_int(arp_target_mac) % 5
 
-        print(server_selected)
+        print("Server selected => " + str(server_selected))
 
         if server_selected == 0:
             src_mac = self.SERVER1_MAC

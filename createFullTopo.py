@@ -64,10 +64,6 @@ class NetworkTopo( Topo ):
         self.addLink(s1, h3, port1=13)
         self.addLink(s1, h4, port1=14)
         self.addLink(s1, h5, port1=15)
-        
-        
-        #for h, s in [ (h1, s1), (h2, s1), (h3, s1), (h4, s1), (h5, s1) ]:
-        #    self.addLink( h, s )
 
 def run():
 
