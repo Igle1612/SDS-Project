@@ -7,7 +7,7 @@ from mininet.node import Node
 from mininet.log import setLogLevel, info
 from mininet.cli import CLI
 from mininet.link import Intf
-from mininet.node import Controller, RemoteController, OVSSwitch
+from mininet.node import Controller, RemoteController, OVSSwitch, OVSKernelSwitch
 
         
 # Add controllers
@@ -35,21 +35,21 @@ class NetworkTopo( Topo ):
     # Class that builds network topology consisting of four hosts, one router, three switches
     def build( self, **_opts ):
 
-        router = self.addNode( 'r0', ip='192.168.1.1/24', protocols='OpenFlow13', cls=LinuxRouter )
+        router = self.addNode( 'r0', ip='192.168.1.1/24',  cls=LinuxRouter, protocols='OpenFlow13' )
 
-        s0 = self.addSwitch( 's0', ip='192.168.1.99', failMode='standalone', protocols='OpenFlow13' )
+        s0 = self.addSwitch( 's0', ip='192.168.1.99', failMode='standalone', protocols='OpenFlow13', cls=OVSSwitch)
 
-        s1 = self.addSwitch( 's1', ip='192.168.1.100', failMode='standalone', protocols='OpenFlow13' )
+        s1 = self.addSwitch( 's1', ip='192.168.1.100', failMode='standalone', protocols='OpenFlow13', cls=OVSSwitch)
 
         self.addLink( s0, router, port1=1, intfName2='r0-eth1', params2={ 'ip' : '192.168.1.1/24' } )
         self.addLink( s0, s1, port1=2, port2=1 )
 
         #Add outter hosts
-        hout1 = self.addHost( 'hout1', ip='10.0.1.10/24', defaultRoute='via 10.0.1.1', mac='00:00:00:00:FF:01')
-        hout2 = self.addHost( 'hout2', ip='10.0.2.10/24', defaultRoute='via 10.0.2.1', mac='00:00:00:00:FF:02')
-        hout3 = self.addHost( 'hout3', ip='10.0.3.10/24', defaultRoute='via 10.0.3.1', mac='00:00:00:00:FF:03')
-        hout4 = self.addHost( 'hout4', ip='10.0.4.10/24', defaultRoute='via 10.0.4.1', mac='00:00:00:00:FF:04')
-        hout5 = self.addHost( 'hout5', ip='10.0.5.10/24', defaultRoute='via 10.0.5.1', mac='00:00:00:00:FF:05')
+        hout1 = self.addHost( 'hout1', ip='10.0.1.10/24', defaultRoute='via 10.0.1.1' )
+        hout2 = self.addHost( 'hout2', ip='10.0.2.10/24', defaultRoute='via 10.0.2.1' )
+        hout3 = self.addHost( 'hout3', ip='10.0.3.10/24', defaultRoute='via 10.0.3.1' )
+        hout4 = self.addHost( 'hout4', ip='10.0.4.10/24', defaultRoute='via 10.0.4.1' )
+        hout5 = self.addHost( 'hout5', ip='10.0.5.10/24', defaultRoute='via 10.0.5.1' )
         self.addLink( hout1, router, intfName2='r0-eth2', params2={ 'ip' : '10.0.1.1/24' })
         self.addLink( hout2, router, intfName2='r0-eth3', params2={ 'ip' : '10.0.2.1/24' })
         self.addLink( hout3, router, intfName2='r0-eth4', params2={ 'ip' : '10.0.3.1/24' })
@@ -88,7 +88,7 @@ def run():
     router.cmd('iptables -t nat -A PREROUTING -d 10.0.2.1 -j DNAT --to-destination 192.168.1.100')
     router.cmd('iptables -t nat -A PREROUTING -d 10.0.3.1 -j DNAT --to-destination 192.168.1.100')
     router.cmd('iptables -t nat -A PREROUTING -d 10.0.4.1 -j DNAT --to-destination 192.168.1.100')
-    router.cmd('iptables -t nat -A PREROUTING -d 10.0.5.1 -j DNAT --to-destination 192.168.1.2')
+    router.cmd('iptables -t nat -A PREROUTING -d 10.0.5.1 -j DNAT --to-destination 192.168.1.100')
 
     #router.cmd('ip route add default via 192.168.1.1')
     #router.cmd('ip route add 192.168.1.0/24 via 192.168.1.1')
