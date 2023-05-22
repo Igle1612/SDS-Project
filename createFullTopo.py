@@ -45,11 +45,11 @@ class NetworkTopo( Topo ):
         self.addLink( s0, s1, port1=2, port2=1 )
 
         #Add outter hosts
-        hout1 = self.addHost( 'hout1', ip='10.0.1.10/24', defaultRoute='via 10.0.1.1' )
-        hout2 = self.addHost( 'hout2', ip='10.0.2.10/24', defaultRoute='via 10.0.2.1' )
-        hout3 = self.addHost( 'hout3', ip='10.0.3.10/24', defaultRoute='via 10.0.3.1' )
-        hout4 = self.addHost( 'hout4', ip='10.0.4.10/24', defaultRoute='via 10.0.4.1' )
-        hout5 = self.addHost( 'hout5', ip='10.0.5.10/24', defaultRoute='via 10.0.5.1' )
+        hout1 = self.addHost( 'hout1', ip='10.0.1.10/24', defaultRoute='via 10.0.1.1', mac='00:00:00:00:FF:01')
+        hout2 = self.addHost( 'hout2', ip='10.0.2.10/24', defaultRoute='via 10.0.2.1', mac='00:00:00:00:FF:02')
+        hout3 = self.addHost( 'hout3', ip='10.0.3.10/24', defaultRoute='via 10.0.3.1', mac='00:00:00:00:FF:03')
+        hout4 = self.addHost( 'hout4', ip='10.0.4.10/24', defaultRoute='via 10.0.4.1', mac='00:00:00:00:FF:04')
+        hout5 = self.addHost( 'hout5', ip='10.0.5.10/24', defaultRoute='via 10.0.5.1', mac='00:00:00:00:FF:05')
         self.addLink( hout1, router, intfName2='r0-eth2', params2={ 'ip' : '10.0.1.1/24' })
         self.addLink( hout2, router, intfName2='r0-eth3', params2={ 'ip' : '10.0.2.1/24' })
         self.addLink( hout3, router, intfName2='r0-eth4', params2={ 'ip' : '10.0.3.1/24' })

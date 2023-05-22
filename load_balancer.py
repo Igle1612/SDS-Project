@@ -155,7 +155,6 @@ class LoadBalancer(simple_switch_13.SimpleSwitch13):
         return pkt
 
     def handle_tcp_packet(self, datapath, in_port, ip_header, parser, dst_mac, src_mac):
-
         # CHANGES HERE
         if dst_mac == self.SERVER1_MAC:
             server_dst_ip = self.SERVER1_IP
