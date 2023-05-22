@@ -12,7 +12,7 @@ And for each server:
 To test: `hout2 curl 192.168.1.100`
 
 Monitor:
-In other console execute `ryu-manager --ofp-tcp-listen-port 6633 monitor_telegraf.py`
+In other console execute `ryu-manager --ofp-tcp-listen-port 6633 telegraf_snort.py`
 
 Snort:
 
