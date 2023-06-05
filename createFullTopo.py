@@ -81,6 +81,13 @@ def run():
 
     for c in [c0, c1]:
         net.addController(c)
+
+    net[ 's1' ].cmd( 'haproxy -db -f ./haproxy.cfg &' )
+    net[ 'h1' ].cmd( 'python3 -m http.server 80 &' )
+    net[ 'h2' ].cmd( 'python3 -m http.server 80 &' )
+    net[ 'h3' ].cmd( 'python3 -m http.server 80 &' )
+    net[ 'h4' ].cmd( 'python3 -m http.server 80 &' )
+    net[ 'h5' ].cmd( 'python3 -m http.server 80 &' )
         
     net.start()
     router = net.getNodeByName('r0')
