@@ -39,7 +39,7 @@ class NetworkTopo( Topo ):
 
         s1 = self.addSwitch( 's1', ip='192.168.1.100', failMode='standalone', protocols='OpenFlow13', cls=MultiSwitch)
 
-        self.addLink( s0, s1, port1=6, port2=6 )
+        self.addLink( s0, s1, intfName2='s0-s1', port1=6, port2=6 )
 
         #Add outter hosts
         hout1 = self.addHost( 'hout1', ip='192.168.1.201/24' )
