@@ -37,9 +37,9 @@ class NetworkTopo( Topo ):
 
         router = self.addNode( 'r0', ip='192.168.1.1/24',  cls=LinuxRouter, protocols='OpenFlow13' )
 
-        s0 = self.addSwitch( 's0', ip='192.168.1.99', failMode='standalone', protocols='OpenFlow13', cls=OVSSwitch)
+        s0 = self.addSwitch( 's0', ip='192.168.1.99', failMode='standalone', protocols='OpenFlow13', cls=MultiSwitch)
 
-        s1 = self.addSwitch( 's1', ip='192.168.1.100', failMode='standalone', protocols='OpenFlow13', cls=OVSSwitch)
+        s1 = self.addSwitch( 's1', ip='192.168.1.100', failMode='standalone', protocols='OpenFlow13', cls=MultiSwitch)
 
         self.addLink( s0, router, port1=1, intfName2='r0-eth1', params2={ 'ip' : '192.168.1.1/24' } )
         self.addLink( s0, s1, port1=2, port2=1 )
@@ -84,11 +84,11 @@ def run():
         
     net.start()
     router = net.getNodeByName('r0')
-    router.cmd('iptables -t nat -A PREROUTING -d 10.0.1.1 -j DNAT --to-destination 192.168.1.100')
-    router.cmd('iptables -t nat -A PREROUTING -d 10.0.2.1 -j DNAT --to-destination 192.168.1.100')
-    router.cmd('iptables -t nat -A PREROUTING -d 10.0.3.1 -j DNAT --to-destination 192.168.1.100')
-    router.cmd('iptables -t nat -A PREROUTING -d 10.0.4.1 -j DNAT --to-destination 192.168.1.100')
-    router.cmd('iptables -t nat -A PREROUTING -d 10.0.5.1 -j DNAT --to-destination 192.168.1.100')
+    router.cmd('iptables -t nat -A PREROUTING -d 10.0.1.1 -j DNAT --to-destination 192.168.1.1')
+    router.cmd('iptables -t nat -A PREROUTING -d 10.0.2.1 -j DNAT --to-destination 192.168.1.1')
+    router.cmd('iptables -t nat -A PREROUTING -d 10.0.3.1 -j DNAT --to-destination 192.168.1.1')
+    router.cmd('iptables -t nat -A PREROUTING -d 10.0.4.1 -j DNAT --to-destination 192.168.1.1')
+    router.cmd('iptables -t nat -A PREROUTING -d 10.0.5.1 -j DNAT --to-destination 192.168.1.1')
 
     #router.cmd('ip route add default via 192.168.1.1')
     #router.cmd('ip route add 192.168.1.0/24 via 192.168.1.1')
