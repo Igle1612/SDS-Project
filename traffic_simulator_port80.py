@@ -13,7 +13,7 @@ while len(public_ips) < 20:
 # Get a random IP from the list and send a TCP request to PORT 80
 def generate_packet():
     src_ip = random.choice(public_ips)
-    dst_ip = "192.168.1.1"
+    dst_ip = "192.168.1.101"
     return IP(src=src_ip, dst=dst_ip)/TCP(sport=3000, dport=80) 
 
 # Simulate traffic for 10 minutes
