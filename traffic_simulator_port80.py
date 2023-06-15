@@ -10,7 +10,7 @@ while len(public_ips) < 20:
     if not ip.is_private:
         public_ips.append(str(ip))
 
-# Define a function to generate a packet with a random source and destination IP address
+# Get a random IP from the list and send a TCP request to PORT 80
 def generate_packet():
     src_ip = random.choice(public_ips)
     dst_ip = "192.168.1.1"
@@ -21,8 +21,10 @@ start_time = time.time()
 while (time.time() - start_time) < 600:
     num_connections = random.randint(1, 10)
     
+    # Send num_connections number of recuests
     for i in range(num_connections):
         start_time_conn = time.time()
+        # send the request using a random delay between every request
         while (time.time() - start_time_conn) < 20:
             packet = generate_packet()
             
