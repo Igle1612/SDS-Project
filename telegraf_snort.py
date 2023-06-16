@@ -31,7 +31,7 @@ class MonitorSnort(simple_switch_13.SimpleSwitch13):
         self.datapaths = {}
         self.monitor_thread = hub.spawn(self._monitor)
         self.snort = kwargs['snortlib']
-        self.snort_port = 4
+        self.snort_port = 8
         self.mac_to_port = {}
 
         socket_config = {'unixsock': True}
