@@ -10,7 +10,7 @@ In other console execute `ryu-manager --ofp-tcp-listen-port 6634 load_balancer.p
 
 **Snort:**
 
-First we create the interface executing: `configSnort.sh`
+First we create the interface executing: `sudo ./configSnort.sh`
 
 To check the port number (it should be 8, if not it has to be changed on *telegraf_snort.py*: `sudo ovs-ofctl show s0 -O OpenFlow13`
 
