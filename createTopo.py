@@ -35,9 +35,9 @@ class NetworkTopo( Topo ):
     # Class that builds network topology consisting of four hosts, one router, three switches
     def build( self, **_opts ):
 
-        s0 = self.addSwitch( 's0', ip='192.168.1.99', failMode='standalone', protocols='OpenFlow13', cls=MultiSwitch)
+        s0 = self.addSwitch( 's0', ip='192.168.1.99', failMode='standalone', protocols='OpenFlow13', cls=MultiSwitch, dpid="0000000000000001")
 
-        s1 = self.addSwitch( 's1', ip='192.168.1.100', failMode='standalone', protocols='OpenFlow13', cls=MultiSwitch)
+        s1 = self.addSwitch( 's1', ip='192.168.1.100', failMode='standalone', protocols='OpenFlow13', cls=MultiSwitch, dpid="0000000000000002")
 
         self.addLink( s0, s1, intfName2='s0-s1', port1=6, port2=6 )
 
