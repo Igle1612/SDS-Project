@@ -14,27 +14,27 @@ from ryu.lib.packet import ethernet
 class LoadBalancer(simple_switch_13.SimpleSwitch13):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
 
-    VIRTUAL_IP = '192.168.1.100'  # The virtual server IP s2
+    VIRTUAL_IP = '192.168.1.100'  # The virtual server IP s1
 
     SERVER1_IP = '192.168.1.101'
     SERVER1_MAC = '00:00:00:00:00:01'
-    SERVER1_PORT = 11
+    SERVER1_PORT = 1
 
     SERVER2_IP = '192.168.1.102'
     SERVER2_MAC = '00:00:00:00:00:02'
-    SERVER2_PORT = 12
+    SERVER2_PORT = 2
 
     SERVER3_IP = '192.168.1.103'
     SERVER3_MAC = '00:00:00:00:00:03'
-    SERVER3_PORT = 13
+    SERVER3_PORT = 3
 
     SERVER4_IP = '192.168.1.104'
     SERVER4_MAC = '00:00:00:00:00:04'
-    SERVER4_PORT = 14
+    SERVER4_PORT = 4
 
     SERVER5_IP = '192.168.1.105'
     SERVER5_MAC = '00:00:00:00:00:05'
-    SERVER5_PORT = 15
+    SERVER5_PORT = 5
 
     def __init__(self, *args, **kwargs):
         super(LoadBalancer, self).__init__(*args, **kwargs)
@@ -88,6 +88,8 @@ class LoadBalancer(simple_switch_13.SimpleSwitch13):
             arp_header = pkt.get_protocol(arp.arp)
             if arp_header.dst_ip == self.VIRTUAL_IP and arp_header.opcode == arp.ARP_REQUEST:
                 # Build an ARP reply packet using source IP and source MAC
+                print("================ARP================")
+                print(arp_header)
                 reply_packet = self.arp_reply(arp_header.src_ip, arp_header.src_mac)
                 actions = [parser.OFPActionOutput(in_port)]
                 packet_out = parser.OFPPacketOut(datapath=datapath,
@@ -102,6 +104,8 @@ class LoadBalancer(simple_switch_13.SimpleSwitch13):
         # Handle TCP Packet
         if eth.ethertype == ETH_TYPE_IP:
             ip_header = pkt.get_protocol(ipv4.ipv4)
+            print("================TCP================")
+            print(pkt)
             if ip_header.dst == self.VIRTUAL_IP:
                 self.handle_tcp_packet(datapath, in_port, ip_header, parser, dst_mac, src_mac)
                 self.logger.info("TCP packet handled")
@@ -129,7 +133,7 @@ class LoadBalancer(simple_switch_13.SimpleSwitch13):
         # CHANGES HERE ============================
         server_selected = haddr_to_int(arp_target_mac) % 5
 
-        print("Server selected => " + str(server_selected))
+        print("=========================== Server selected => " + str(server_selected + 1))
 
         if server_selected == 0:
             src_mac = self.SERVER1_MAC
@@ -155,6 +159,7 @@ class LoadBalancer(simple_switch_13.SimpleSwitch13):
         return pkt
 
     def handle_tcp_packet(self, datapath, in_port, ip_header, parser, dst_mac, src_mac):
+
         # CHANGES HERE
         if dst_mac == self.SERVER1_MAC:
             server_dst_ip = self.SERVER1_IP
@@ -174,7 +179,7 @@ class LoadBalancer(simple_switch_13.SimpleSwitch13):
 
         # Route to server
         match = parser.OFPMatch(in_port=in_port, eth_type=ETH_TYPE_IP, ip_proto=ip_header.proto,
-                                ipv4_dst=self.VIRTUAL_IP)
+                                ipv4_dst=self.VIRTUAL_IP, ipv4_src=ip_header.src)
 
         actions = [parser.OFPActionSetField(ipv4_dst=server_dst_ip),
                    parser.OFPActionOutput(server_out_port)]

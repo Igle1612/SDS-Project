@@ -3,12 +3,12 @@ import random
 import time
 
 # List of source IP addresses
-public_ips = ['10.0.1.10', '10.0.2.10', '10.0.3.10', '10.0.4.10', '10.0.5.10']
+public_ips = ['192.168.1.201', '192.168.1.202', '192.168.1.203', '192.168.1.204', '192.168.1.205']
 
 # Select a random IP from the above list and send a request to the server
 def generate_packet():
     src_ip = random.choice(public_ips)
-    dst_ip = "192.168.1.1"
+    dst_ip = "192.168.1.101"
     return IP(src=src_ip, dst=dst_ip)/TCP(sport=RandShort(), dport=80) 
 
 num_requests = 50

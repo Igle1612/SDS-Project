@@ -36,7 +36,7 @@ class SimpleSwitchSnort(app_manager.RyuApp):
     def __init__(self, *args, **kwargs):
         super(SimpleSwitchSnort, self).__init__(*args, **kwargs)
         self.snort = kwargs['snortlib']
-        self.snort_port = 3
+        self.snort_port = 8
         self.mac_to_port = {}
 
         socket_config = {'unixsock': True}
@@ -69,8 +69,6 @@ class SimpleSwitchSnort(app_manager.RyuApp):
     def _dump_alert(self, ev):
         msg = ev.msg
         print('alertmsg: %s' % msg.alertmsg[0].decode())
-
-        self.packet_print(msg.pkt)
 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
     def switch_features_handler(self, ev):
