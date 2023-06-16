@@ -4,6 +4,12 @@
 
 To execute and create the topo we must use `sudo python2 createTopo.py`
 
+In */etc/snort/snort.conf* add the custom rules: `include $RULE_PATH/Myrules.rules`
+
+Comment line: `$RULE_PATH/icmp-info.rules`
+
+Then execute : `cp Myrules.rules /ets/snort/rules/`
+
 **LoadBalancer:**
 
 In other console execute `ryu-manager --ofp-tcp-listen-port 6634 load_balancer.py`
